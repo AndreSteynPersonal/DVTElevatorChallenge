@@ -12,6 +12,6 @@
 
         public void RemoveDestinationFloor(int floor);
 
-        public void Move();
+        public Task Move();
     }
 }

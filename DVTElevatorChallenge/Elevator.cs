@@ -82,18 +82,20 @@ namespace DVTElevatorChallenge
                 ElevatorState.Direction = ElevatorStatus.Idle;
         }
 
-        public void Move()
+        public async Task Move()
         {
             if (ElevatorState.DestinationFloors.Count > 0)
             {
                 if (ElevatorState.CurrentFloor < ElevatorState.DestinationFloors[0])
                     for (int i = ElevatorState.CurrentFloor; i < ElevatorState.DestinationFloors[0]; i++)
                     {
+                        await Task.Delay(1000);
                         ElevatorState.CurrentFloor++;
                     }
                 else if (ElevatorState.CurrentFloor > ElevatorState.DestinationFloors[0])
                     for (int i = ElevatorState.CurrentFloor; i > ElevatorState.DestinationFloors[0]; i--)
                     {
+                        await Task.Delay(1000);
                         ElevatorState.CurrentFloor--;
                     }
 

@@ -3,7 +3,7 @@
     internal class Program
     {
         private const string QUIT = "q";
-        static void Main(string[] _)
+        static async Task Main(string[] _)
         {
             var input = string.Empty;
             var numberOfFloors = 0;
@@ -86,7 +86,7 @@
 
                                     ShowElevatorStatus(building);
 
-                                    building.SimulateElevatorMovement();
+                                    await building.SimulateElevatorMovement();
 
                                     Console.ForegroundColor = ConsoleColor.Red;
                                     Console.WriteLine("** ELEVATOR STATUS AFTER SIMULATION **");

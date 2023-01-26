@@ -8,7 +8,7 @@ namespace DVTElevatorChallengeTests
     public class BuildingTests
     {
         [Test]
-        public void TestElevatorMovement()
+        public async Task TestElevatorMovement()
         {
             Building building = new(3, 10, 20);
 
@@ -17,15 +17,18 @@ namespace DVTElevatorChallengeTests
             // Check if the elevator is moving to the correct floor
             Assert.That(building.elevators[0].ElevatorState.Direction, Is.EqualTo(ElevatorStatus.Up));
             
-            building.SimulateElevatorMovement();
+            await building.SimulateElevatorMovement();
+
+            // Check if the elevator is on the correct floor
+            Assert.That(building.elevators[0].ElevatorState.CurrentFloor, Is.EqualTo(18));
 
             building.RequestElevator(14, 13, 2);
             
             // Check if the elevator is moving to the correct floor
-            Assert.That(building.elevators[0].ElevatorState.CurrentFloor, Is.EqualTo(18));
+            Assert.That(building.elevators[0].ElevatorState.CurrentFloor, Is.EqualTo(14));
             Assert.That(building.elevators[0].ElevatorState.Direction, Is.EqualTo(ElevatorStatus.Down));
 
-            building.SimulateElevatorMovement();
+            await building.SimulateElevatorMovement();
 
             // Check if the passenger(s) removed from the elevator once they reach their destination floor
             Assert.That(building.elevators[0].ElevatorState.NumberOfPassengers, Is.EqualTo(0));

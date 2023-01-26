@@ -43,7 +43,7 @@ namespace DVTElevatorChallenge
                 var passengerCheck = nearestElevator.ElevatorState.NumberOfPassengers + numberOfPeople;
                 if(passengerCheck <= nearestElevator.ElevatorState.Capacity)
                 {
-                    result = AddPassengers(nearestElevator, numberOfPeople, destinationFloor);
+                    result = AddPassengers(nearestElevator, numberOfPeople, destinationFloor, floor);
                 }
                 else
                 {
@@ -57,7 +57,7 @@ namespace DVTElevatorChallenge
 
                         if (passengerCheck <= nearestElevator.ElevatorState.Capacity)
                         {
-                            result = AddPassengers(nearestElevator, numberOfPeople, destinationFloor);
+                            result = AddPassengers(nearestElevator, numberOfPeople, destinationFloor, floor);
                             break;
                         }
                     }
@@ -71,12 +71,15 @@ namespace DVTElevatorChallenge
             }
         }
 
-        public void SimulateElevatorMovement()
+        public async Task SimulateElevatorMovement()
         {
+            List<Task> tasks = new List<Task>();
             foreach (Elevator elevator in elevators)
             {
-                elevator.Move();
+                tasks.Add(elevator.Move());
             }    
+
+            await Task.WhenAll(tasks);
         }
 
         public Dictionary<int, ElevatorState> GetElevatorStatus()
@@ -104,12 +107,13 @@ namespace DVTElevatorChallenge
             return elevator;
         }
 
-        private static string AddPassengers(Elevator elevator, int numberOfPeople, int destinationFloor)
+        private static string AddPassengers(Elevator elevator, int numberOfPeople, int destinationFloor, int floor)
         {
             for (int i = 0; i < numberOfPeople; i++)
             {
                 elevator.AddPassenger(destinationFloor);
             }
+            elevator.ElevatorState.CurrentFloor = floor;
             return $"Added {numberOfPeople} passenger(s) to elevator {elevator.ElevatorNumber}.";
         }
     }

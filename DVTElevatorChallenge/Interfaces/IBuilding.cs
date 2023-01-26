@@ -6,7 +6,7 @@ namespace DVTElevatorChallenge.Interfaces
     {
         public string RequestElevator(int floor, int destinationFloor, int numberOfPeople);
 
-        public void SimulateElevatorMovement();
+        public Task SimulateElevatorMovement();
 
         public Dictionary<int, ElevatorState> GetElevatorStatus();
     }
